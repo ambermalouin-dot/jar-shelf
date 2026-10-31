@@ -1,0 +1,137 @@
+/* Inside an opened jar: notes are paper slips.
+   A folded slip has a folded corner. Tap it and it unfolds into a slip with a
+   slightly torn bottom edge.
+
+   The dark outline follows the torn/folded shape using a "drop-shadow"
+   filter on a wrapper (a plain border can't follow a cut-out edge). */
+
+.jar-view-prompt {
+  margin: 0 0 16px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Wrapper that draws the outline around the cut-out shape */
+.slip {
+  filter: drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
+    drop-shadow(0 2px 0 var(--outline)) drop-shadow(0 -2px 0 var(--outline));
+}
+
+/* ---------- Folded slip (the button) ---------- */
+
+.note-fold {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 12px 40px 12px 16px;
+  background: var(--paper);
+  color: var(--paper-ink);
+  border: 0;
+  /* cut the top-right corner off, to show the fold */
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+/* The folded-over flap */
+.note-fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(225deg, transparent 50%, var(--outline) 50%, var(--outline) 58%, var(--paper-fold) 58%);
+}
+/* Keyboard focus is drawn inside the shape, because the shape clips outside edges */
+.note-fold:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -7px;
+}
+.stamp-small {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  filter: var(--art-filter);
+}
+.note-preview {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Unfolded slip ---------- */
+
+.note-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows var(--dur-slow) ease, visibility 0s linear var(--dur-slow);
+}
+.note.open .note-body {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.note-body-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding: 4px;
+}
+.note-paper-wrap {
+  margin: 6px 0;
+  transform-origin: top center;
+  transform: perspective(700px) rotateX(-40deg);
+  opacity: 0;
+  transition: transform var(--dur-slow) ease, opacity var(--dur-slow) ease;
+}
+.note.open .note-paper-wrap {
+  transform: none;
+  opacity: 1;
+}
+.note-paper {
+  padding: 20px 20px 28px;
+  background: var(--paper);
+  color: var(--paper-ink);
+  /* slightly uneven, torn-looking bottom edge */
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - 7px),
+    96% 100%, 91% calc(100% - 5px), 86% calc(100% - 8px), 80% 100%,
+    74% calc(100% - 4px), 68% calc(100% - 7px), 61% 100%,
+    55% calc(100% - 5px), 48% calc(100% - 8px), 42% 100%,
+    35% calc(100% - 4px), 29% calc(100% - 7px), 22% 100%,
+    16% calc(100% - 5px), 9% calc(100% - 8px), 4% 100%, 0 calc(100% - 6px)
+  );
+}
+.note-text {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.note-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.stamp-large {
+  width: 48px;
+  height: 48px;
+  filter: var(--art-filter);
+}
+.keeper-label {
+  color: var(--paper-ink-soft);
+  font-style: italic;
+}

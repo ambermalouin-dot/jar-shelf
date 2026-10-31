@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 150" width="120" height="150" fill="none" stroke="#4a3428" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <filter id="hand" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3"/>
+    </filter>
+  </defs>
+  <g filter="url(#hand)">
+    <path d="M32 36 H88 Q106 46 106 72 V128 Q106 144 90 144 H30 Q14 144 14 128 V72 Q14 46 32 36Z" fill="#dcebe3"/>
+    <rect x="30" y="70" width="34" height="46" rx="3" fill="#aec6a0" stroke-width="3" transform="rotate(-9 47 93)"/>
+    <rect x="54" y="76" width="34" height="46" rx="3" fill="#8fae83" stroke-width="3" transform="rotate(11 71 99)"/>
+    <rect x="40" y="92" width="40" height="38" rx="3" fill="#aec6a0" stroke-width="3" transform="rotate(-3 60 111)"/>
+    <rect x="34" y="106" width="52" height="26" rx="3" fill="#fbf0d8" stroke-width="3"/>
+    <path d="M42 115 H78 M42 123 H68" stroke-width="3"/>
+    <path d="M32 36 H88 Q106 46 106 72 V128 Q106 144 90 144 H30 Q14 144 14 128 V72 Q14 46 32 36Z"/>
+    <path d="M24 64 Q22 52 32 46" stroke="#ffffff" stroke-width="4"/>
+    <rect x="28" y="22" width="64" height="14" rx="4" fill="#8a5230"/>
+    <rect x="34" y="6" width="52" height="18" rx="5" fill="#b9824f"/>
+  </g>
+</svg>

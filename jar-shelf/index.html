@@ -1,0 +1,147 @@
+<!doctype html>
+<!-- The Jar Shelf: the main page. All the words come from js/content.js. -->
+<html lang="en" data-lighting="day">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Jar Shelf · leave a note, find one you needed</title>
+  <meta name="description" content="A cozy shelf where you leave a note and find one you needed.">
+
+  <!-- Free fonts from Google Fonts: a friendly serif for headings, a clear sans for reading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Relative paths (./) so it works on GitHub Pages -->
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/shelf.css">
+  <link rel="stylesheet" href="./css/notes.css">
+  <script type="module" src="./js/shelf.js"></script>
+</head>
+<body>
+  <!-- Day/night color wash, sits behind everything -->
+  <div id="lighting-layer" aria-hidden="true"></div>
+
+  <!-- Sticky header: always visible, so the Lantern is reachable from every screen -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <h1 class="site-name">The Jar Shelf</h1>
+      <div class="header-buttons">
+        <button id="lantern-button" class="icon-button" type="button" aria-haspopup="dialog">
+          <img src="./assets/svg/icons/icon-lantern.svg" alt="" width="32" height="32">
+        </button>
+        <button id="drawer-button" class="icon-button" type="button" aria-haspopup="dialog">
+          <img src="./assets/svg/icons/icon-drawer.svg" alt="" width="32" height="32">
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <p id="tagline" class="tagline"></p>
+
+    <!-- ONE bookcase. Everything clickable sits on its shelves.
+         Items marked class="decor" are only decoration (not buttons). -->
+    <div class="bookcase-wrap">
+      <div class="bookcase-top decor" aria-hidden="true">
+        <img src="./assets/svg/decor/succulent-pot.svg" alt="" width="110" height="80">
+        <img src="./assets/svg/decor/plant-small.svg" alt="" width="60" height="84">
+        <img src="./assets/svg/decor/cactus-pot.svg" alt="" width="66" height="96">
+      </div>
+
+      <div class="bookcase">
+        <div class="bookcase-back">
+
+          <!-- Shelf 1: Tonight's Jar -->
+          <div class="shelf-row">
+            <button id="tonight-jar" class="shelf-object tonight" type="button" aria-haspopup="dialog">
+              <img class="jar-art" src="./assets/svg/jars/jar-tonight.svg" alt="" width="120" height="150">
+              <span class="tag tonight-text">
+                <span id="tonight-label" class="tonight-label"></span>
+                <span id="tonight-date" class="tonight-date"></span>
+                <span id="tonight-prompt" class="tonight-prompt"></span>
+                <span id="tonight-note" class="tonight-note"></span>
+              </span>
+            </button>
+          </div>
+          <div class="shelf-plank" aria-hidden="true"></div>
+
+          <!-- Shelf 2: the Jar Cluster. Tap to reveal the 5 topic jars -->
+          <div class="shelf-row">
+            <button id="cluster-button" class="shelf-object stacked" type="button" aria-expanded="false" aria-controls="cluster-jars">
+              <img class="cluster-art" src="./assets/svg/jars/jar-cluster.svg" alt="" width="200" height="140">
+              <span id="cluster-label" class="tag object-label"></span>
+            </button>
+            <div class="decor" aria-hidden="true">
+              <img src="./assets/svg/decor/books-upright.svg" alt="" width="76" height="84">
+            </div>
+            <ul id="cluster-jars" class="cluster-jars" hidden></ul>
+          </div>
+          <div class="shelf-plank" aria-hidden="true"></div>
+
+          <!-- Shelf 3: the Record Player (placeholder for now, sound comes later) -->
+          <div class="shelf-row">
+            <button id="record-player" class="shelf-object stacked" type="button" aria-disabled="true">
+              <img class="record-art" src="./assets/svg/shelf/record-player.svg" alt="" width="160" height="90">
+              <span id="record-label" class="tag object-label"></span>
+            </button>
+            <div class="decor" aria-hidden="true">
+              <img class="decor-candle" src="./assets/svg/decor/candle.svg" alt="" width="44" height="78">
+            </div>
+          </div>
+          <div class="shelf-plank" aria-hidden="true"></div>
+
+          <!-- Shelf 4: just decoration, so the bookcase feels lived in -->
+          <div class="shelf-row">
+            <div class="decor" aria-hidden="true">
+              <img src="./assets/svg/decor/trinket-box.svg" alt="" width="64" height="50">
+              <img src="./assets/svg/decor/books-stack.svg" alt="" width="84" height="50">
+              <img src="./assets/svg/decor/plant-small.svg" alt="" width="60" height="84">
+            </div>
+          </div>
+          <div class="shelf-plank" aria-hidden="true"></div>
+
+        </div>
+      </div>
+
+      <div class="bookcase-feet decor" aria-hidden="true">
+        <img src="./assets/svg/shelf/bookcase-foot.svg" alt="" width="50" height="46">
+        <img src="./assets/svg/shelf/bookcase-foot.svg" alt="" width="50" height="46">
+      </div>
+    </div>  </main>
+
+  <!-- Opening a jar: folded notes -->
+  <div id="jar-view" class="overlay jar-view" role="dialog" aria-labelledby="jar-view-title" tabindex="-1" hidden>
+    <div class="overlay-inner">
+      <div class="overlay-top">
+        <h2 id="jar-view-title"></h2>
+        <button class="close-button" type="button" data-close></button>
+      </div>
+      <p id="jar-view-prompt" class="jar-view-prompt" hidden></p>
+      <div id="note-list" class="note-list"></div>
+    </div>
+  </div>
+
+  <!-- Drawer (for now it only shows the house rules) -->
+  <div id="drawer" class="overlay overlay-drawer" role="dialog" tabindex="-1" hidden>
+    <div class="overlay-inner">
+      <div class="overlay-top">
+        <h2 id="drawer-title"></h2>
+        <button class="close-button" type="button" data-close></button>
+      </div>
+      <div id="drawer-content"></div>
+    </div>
+  </div>
+
+  <!-- Lantern: full-screen help resources -->
+  <div id="lantern" class="overlay overlay-lantern" role="dialog" aria-modal="true" aria-labelledby="lantern-title" tabindex="-1" hidden>
+    <div class="overlay-inner">
+      <div class="overlay-top">
+        <h2 id="lantern-title"></h2>
+        <button class="close-button" type="button" data-close></button>
+      </div>
+      <div id="lantern-content"></div>
+    </div>
+  </div>
+</body>
+</html>

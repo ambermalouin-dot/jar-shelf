@@ -1,0 +1,310 @@
+/* Base look: colors, fonts, header, and the full-screen panels.
+   Hand-drawn and cozy: flat warm colors, thick dark brown outlines.
+   Day and night colors are all defined once, right here, as variables. */
+
+:root {
+  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --header-height: 68px;
+
+  /* Animation speeds. Reduce motion sets these to 0 (see the bottom). */
+  --dur: 0.25s;
+  --dur-slow: 0.6s;
+
+  /* The outline used on every drawn thing */
+  --outline: #4a3428;
+
+  /* DAY: cream, peach, terracotta, sage, honey, warm wood */
+  --bg: #f6e6cc;
+  --ink: #3a2a1c;
+  --ink-soft: #5a4531;
+  --header-bg: #8a5230;
+  --header-ink: #fff4de;
+  --header-focus: #ffe08a;
+  --button-bg: #a8482a;
+  --button-ink: #fff4de;
+  --accent: #c8693f;
+  --focus: #1f5f8b;
+
+  /* Paper slips and labels: cream with dark ink, in day and night */
+  --paper: #fbf0d8;
+  --paper-fold: #e8d3a6;
+  --paper-ink: #3a2a1c;
+  --paper-ink-soft: #5a4531;
+
+  /* The bookcase */
+  --frame: #d9985f;
+  --frame-dark: #b56f45;
+  --board: #e9b784;
+  --wall: #f6dcc6;
+  --wall-dim: rgba(0, 0, 0, 0);
+  --art-filter: none;
+}
+
+/* NIGHT: a warm lamp is on. Dimmer, amber and golden, no cold blue. */
+:root[data-lighting="night"] {
+  --bg: #2b1b11;
+  --ink: #f8e7c0;
+  --ink-soft: #e7d1a2;
+  --header-bg: #4a2d1a;
+  --header-ink: #ffe3a3;
+  --header-focus: #ffe08a;
+  --button-bg: #f0b95a;
+  --button-ink: #2a1a10;
+  --accent: #f0b95a;
+  --focus: #ffd479;
+
+  --paper: #f0dcb0;
+  --paper-fold: #d8bf8a;
+
+  --frame: #a8703f;
+  --frame-dark: #85532c;
+  --board: #c28d5b;
+  --wall: #e8c9a8;
+  --wall-dim: rgba(40, 18, 4, 0.5);
+  --art-filter: brightness(0.82) sepia(0.28) saturate(1.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  transition: background-color var(--dur-slow), color var(--dur-slow);
+}
+
+body.overlay-open {
+  overflow: hidden;
+}
+
+/* Paper texture over the whole page (soft noise, no big image files) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("../assets/textures/paper-noise.svg");
+  opacity: 0.3;
+}
+
+/* The day/night color wash sits behind the shelf */
+#lighting-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+:root[data-lighting="day"] #lighting-layer {
+  background: radial-gradient(ellipse at 15% 0%, rgba(255, 226, 150, 0.5), transparent 60%);
+}
+/* Night: lamplight glow from the top right */
+:root[data-lighting="night"] #lighting-layer {
+  background:
+    radial-gradient(ellipse at 85% 6%, rgba(255, 170, 60, 0.38), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 140, 40, 0.14), transparent 55%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Clear focus outline for keyboard use */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.overlay:focus {
+  outline: none;
+}
+
+/* ---------- Sticky header: a wooden beam ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  height: var(--header-height);
+  background: var(--header-bg);
+  color: var(--header-ink);
+  border-bottom: 3px solid var(--outline);
+}
+.site-header :focus-visible {
+  outline-color: var(--header-focus);
+}
+.site-header-inner {
+  max-width: 720px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+/* Round cream tags with the little drawn icons inside */
+.icon-button {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 3px solid var(--outline);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}
+.icon-button:hover {
+  background: var(--paper-fold);
+}
+
+/* ---------- Buttons ---------- */
+
+.close-button,
+.action-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 20px;
+  border: 3px solid var(--outline);
+  border-radius: 14px;
+  background: var(--button-bg);
+  color: var(--button-ink);
+  box-shadow: 0 3px 0 var(--outline);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Full-screen panels (jar view, Drawer, Lantern) ---------- */
+
+.overlay {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  z-index: 40;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--ink);
+}
+.overlay-drawer {
+  z-index: 60;
+}
+/* The Lantern covers everything, including the header, so it is never hidden */
+.overlay-lantern {
+  top: 0;
+  z-index: 100;
+}
+.overlay-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+.overlay-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.overlay-top h2 {
+  font-size: 1.6rem;
+}
+
+/* ---------- Lantern: paper cards ---------- */
+
+.lantern-intro {
+  margin: 0 0 16px;
+  color: var(--ink-soft);
+}
+.resource {
+  background: var(--paper);
+  color: var(--paper-ink);
+  border: 3px solid var(--outline);
+  border-radius: 6px 16px 6px 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.resource-emergency {
+  background: #f9d9bf;
+}
+.resource-name {
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+}
+.resource-detail {
+  margin: 0 0 4px;
+  color: var(--paper-ink-soft);
+  font-size: 0.95rem;
+}
+.resource-text {
+  margin: 0;
+}
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.lantern-footer,
+.lantern-checked {
+  color: var(--ink-soft);
+  margin: 16px 0 0;
+}
+.lantern-checked {
+  font-size: 0.95rem;
+}
+
+/* ---------- House rules (in the Drawer) ---------- */
+
+.house-rules {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+.house-rules li {
+  margin-bottom: 12px;
+}
+
+/* ---------- Reduce motion ----------
+   Either the phone's own setting, or the Drawer setting added in a later phase
+   (which will put the class "reduce-motion" on <html>). */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0s;
+    --dur-slow: 0s;
+  }
+}
+:root.reduce-motion {
+  --dur: 0s;
+  --dur-slow: 0s;
+}
