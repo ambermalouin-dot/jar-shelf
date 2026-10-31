@@ -1,46 +1,68 @@
 /* Base look: colors, fonts, header, and the full-screen panels.
+   Hand-drawn and cozy: flat warm colors, thick dark brown outlines.
    Day and night colors are all defined once, right here, as variables. */
 
 :root {
   --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --header-height: 64px;
+  --header-height: 68px;
 
   /* Animation speeds. Reduce motion sets these to 0 (see the bottom). */
   --dur: 0.25s;
   --dur-slow: 0.6s;
 
-  /* DAY: cream, honey, sage, dusty rose, deep wood brown */
-  --bg: #efe3c8;
-  --paper: #f8efdc;
-  --paper-edge: #dcc9a0;
+  /* The outline used on every drawn thing */
+  --outline: #4a3428;
+
+  /* DAY: cream, peach, terracotta, sage, honey, warm wood */
+  --bg: #f6e6cc;
   --ink: #3a2a1c;
   --ink-soft: #5a4531;
-  --header-bg: #5b3a20;
-  --header-ink: #fbf3e2;
-  --button-bg: #5b3a20;
-  --button-ink: #fbf3e2;
-  --accent: #b9791f;
+  --header-bg: #8a5230;
+  --header-ink: #fff4de;
+  --header-focus: #ffe08a;
+  --button-bg: #a8482a;
+  --button-ink: #fff4de;
+  --accent: #c8693f;
   --focus: #1f5f8b;
-  --shadow: rgba(60, 40, 20, 0.25);
+
+  /* Paper slips and labels: cream with dark ink, in day and night */
+  --paper: #fbf0d8;
+  --paper-fold: #e8d3a6;
+  --paper-ink: #3a2a1c;
+  --paper-ink-soft: #5a4531;
+
+  /* The bookcase */
+  --frame: #d9985f;
+  --frame-dark: #b56f45;
+  --board: #e9b784;
+  --wall: #f6dcc6;
+  --wall-dim: rgba(0, 0, 0, 0);
   --art-filter: none;
 }
 
-/* NIGHT: deep blue and lamplight gold */
+/* NIGHT: a warm lamp is on. Dimmer, amber and golden, no cold blue. */
 :root[data-lighting="night"] {
-  --bg: #101830;
-  --paper: #1f2a48;
-  --paper-edge: #34426b;
-  --ink: #f6ead0;
-  --ink-soft: #dccfae;
-  --header-bg: #0a0f20;
-  --header-ink: #f6e3b0;
-  --button-bg: #f0c46a;
-  --button-ink: #1a1408;
-  --accent: #f0c46a;
+  --bg: #2b1b11;
+  --ink: #f8e7c0;
+  --ink-soft: #e7d1a2;
+  --header-bg: #4a2d1a;
+  --header-ink: #ffe3a3;
+  --header-focus: #ffe08a;
+  --button-bg: #f0b95a;
+  --button-ink: #2a1a10;
+  --accent: #f0b95a;
   --focus: #ffd479;
-  --shadow: rgba(0, 0, 0, 0.5);
-  --art-filter: brightness(0.78) saturate(0.85);
+
+  --paper: #f0dcb0;
+  --paper-fold: #d8bf8a;
+
+  --frame: #a8703f;
+  --frame-dark: #85532c;
+  --board: #c28d5b;
+  --wall: #e8c9a8;
+  --wall-dim: rgba(40, 18, 4, 0.5);
+  --art-filter: brightness(0.82) sepia(0.28) saturate(1.1);
 }
 
 *,
@@ -88,15 +110,15 @@ body::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  transition: background var(--dur-slow);
 }
 :root[data-lighting="day"] #lighting-layer {
-  background: radial-gradient(ellipse at 15% 0%, rgba(255, 236, 170, 0.5), transparent 60%);
+  background: radial-gradient(ellipse at 15% 0%, rgba(255, 226, 150, 0.5), transparent 60%);
 }
+/* Night: lamplight glow from the top right */
 :root[data-lighting="night"] #lighting-layer {
   background:
-    radial-gradient(ellipse at 85% 8%, rgba(255, 196, 96, 0.2), transparent 55%),
-    linear-gradient(rgba(10, 20, 60, 0.35), rgba(10, 20, 60, 0.35));
+    radial-gradient(ellipse at 85% 6%, rgba(255, 170, 60, 0.38), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 140, 40, 0.14), transparent 55%);
 }
 
 h1,
@@ -116,7 +138,7 @@ h3 {
   outline: none;
 }
 
-/* ---------- Sticky header ---------- */
+/* ---------- Sticky header: a wooden beam ---------- */
 
 .site-header {
   position: sticky;
@@ -125,10 +147,10 @@ h3 {
   height: var(--header-height);
   background: var(--header-bg);
   color: var(--header-ink);
-  box-shadow: 0 2px 8px var(--shadow);
+  border-bottom: 3px solid var(--outline);
 }
 .site-header :focus-visible {
-  outline-color: #ffd479;
+  outline-color: var(--header-focus);
 }
 .site-header-inner {
   max-width: 720px;
@@ -140,25 +162,27 @@ h3 {
   justify-content: space-between;
 }
 .site-name {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 .header-buttons {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
+/* Round cream tags with the little drawn icons inside */
 .icon-button {
   width: 48px;
   height: 48px;
   display: grid;
   place-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 12px;
+  background: var(--paper);
+  border: 3px solid var(--outline);
+  border-radius: 50%;
   cursor: pointer;
+  padding: 0;
 }
 .icon-button:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--paper-fold);
 }
 
 /* ---------- Buttons ---------- */
@@ -167,11 +191,12 @@ h3 {
 .action-button {
   min-height: 44px;
   min-width: 44px;
-  padding: 10px 20px;
-  border: 0;
-  border-radius: 999px;
+  padding: 8px 20px;
+  border: 3px solid var(--outline);
+  border-radius: 14px;
   background: var(--button-bg);
   color: var(--button-ink);
+  box-shadow: 0 3px 0 var(--outline);
   font: inherit;
   font-weight: 700;
   text-decoration: none;
@@ -215,7 +240,7 @@ h3 {
   font-size: 1.6rem;
 }
 
-/* ---------- Lantern ---------- */
+/* ---------- Lantern: paper cards ---------- */
 
 .lantern-intro {
   margin: 0 0 16px;
@@ -223,13 +248,14 @@ h3 {
 }
 .resource {
   background: var(--paper);
-  border: 1px solid var(--paper-edge);
-  border-radius: 14px;
+  color: var(--paper-ink);
+  border: 3px solid var(--outline);
+  border-radius: 6px 16px 6px 16px;
   padding: 14px 16px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .resource-emergency {
-  border: 3px solid var(--accent);
+  background: #f9d9bf;
 }
 .resource-name {
   font-size: 1.15rem;
@@ -237,7 +263,7 @@ h3 {
 }
 .resource-detail {
   margin: 0 0 4px;
-  color: var(--ink-soft);
+  color: var(--paper-ink-soft);
   font-size: 0.95rem;
 }
 .resource-text {

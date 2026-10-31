@@ -1,4 +1,6 @@
-/* The bookshelf: planks, Tonight's Jar, the Jar Cluster, the Record Player. */
+/* The bookcase: ONE illustrated bookcase with a patterned back panel.
+   Jars, the cluster, and the record player sit on its shelves.
+   Items with the class "decor" are decoration only (never buttons). */
 
 .page {
   position: relative;
@@ -13,46 +15,128 @@
   font-size: 1.15rem;
   text-align: center;
   color: var(--ink-soft);
-  margin: 4px 0 28px;
+  margin: 4px 0 20px;
 }
 
-.shelf {
+/* ---------- The bookcase ---------- */
+
+.bookcase-wrap {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Plants and things on top of the bookcase */
+.bookcase-top {
   display: flex;
-  flex-direction: column;
-  gap: 36px;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 0 24px;
+  margin-bottom: -6px;
+  position: relative;
+  z-index: 2;
 }
 
-/* One shelf: things stand on the plank at the bottom */
+/* The wooden frame */
+.bookcase {
+  position: relative;
+  z-index: 1;
+  background: var(--frame);
+  border: 3px solid var(--outline);
+  border-radius: 28px;
+  padding: 14px;
+}
+
+/* The back panel with soft wallpaper */
+.bookcase-back {
+  position: relative;
+  background: var(--wall) url("../assets/svg/shelf/bookcase-wallpaper.svg") 0 0 / 120px 120px;
+  border: 3px solid var(--outline);
+  border-radius: 14px;
+  box-shadow: inset 8px 0 0 var(--frame-dark), inset -8px 0 0 var(--frame-dark);
+  overflow: hidden;
+}
+/* At night, the lamp dims the wallpaper and adds a golden glow */
+.bookcase-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 85% 0%, rgba(255, 190, 90, 0.35), transparent 65%),
+    var(--wall-dim);
+}
+:root[data-lighting="day"] .bookcase-back::before {
+  display: none;
+}
+
+/* One shelf: things stand on the board at the bottom */
 .shelf-row {
   position: relative;
-  padding-bottom: 20px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4px 8px;
+  padding: 18px 20px 0;
 }
 .shelf-plank {
-  position: absolute;
-  left: -8px;
-  right: -8px;
-  bottom: 0;
-  height: 22px;
+  position: relative;
+  z-index: 1;
+  height: 26px;
+  margin-top: -4px;
   background: url("../assets/svg/shelf/shelf-plank.svg") 0 0 / 100% 100% no-repeat;
-  border-radius: 3px;
-  box-shadow: 0 6px 12px var(--shadow);
   filter: var(--art-filter);
 }
 
-/* Every shelf object is a real button */
+.bookcase-feet {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 34px;
+  margin-top: -6px;
+}
+
+/* ---------- Decoration (not clickable) ---------- */
+
+.decor {
+  pointer-events: none;
+  user-select: none;
+}
+.decor img {
+  display: block;
+  filter: var(--art-filter);
+}
+.shelf-row > .decor {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: -2px;
+}
+.shelf-row > .decor img {
+  max-width: 72px;
+  height: auto;
+}
+/* At night the candle gives off a little light */
+:root[data-lighting="night"] .decor-candle {
+  filter: var(--art-filter) drop-shadow(0 0 10px rgba(255, 190, 80, 0.9));
+}
+
+/* ---------- Clickable shelf objects ---------- */
+
 .shelf-object {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: flex-end;
-  gap: 16px;
+  gap: 12px;
   min-height: 44px;
   margin: 0;
-  padding: 8px;
+  padding: 4px;
   background: none;
   border: 0;
   border-radius: 14px;
-  color: inherit;
+  color: var(--paper-ink);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -65,45 +149,63 @@
   display: block;
   filter: var(--art-filter);
 }
+.shelf-object.stacked {
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
 
-/* Tonight's Jar: big jar with the prompt beside it */
+/* Hand-lettered paper tag that names an object (also keeps text easy to read) */
+.tag {
+  background: var(--paper);
+  color: var(--paper-ink);
+  border: 3px solid var(--outline);
+  border-radius: 6px 12px 6px 12px;
+  padding: 6px 12px;
+}
+
+/* Tonight's Jar: jar on the left, tag with the prompt beside it */
+.jar-art {
+  width: 100px;
+  height: auto;
+  flex: none;
+}
 .tonight-text {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding-bottom: 12px;
+  gap: 4px;
+  margin-bottom: 14px;
 }
 .tonight-label {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
 }
 .tonight-date {
-  color: var(--ink-soft);
-  font-size: 0.95rem;
+  color: var(--paper-ink-soft);
+  font-size: 0.9rem;
 }
 .tonight-prompt {
-  font-size: 1.1rem;
+  font-size: 1.02rem;
 }
 .tonight-note {
-  color: var(--ink-soft);
-  font-size: 0.9rem;
+  color: var(--paper-ink-soft);
+  font-size: 0.85rem;
 }
 
 /* Jar Cluster and Record Player */
 .cluster-art {
-  width: 200px;
+  width: 170px;
   height: auto;
 }
 .record-art {
-  width: 160px;
+  width: 140px;
   height: auto;
 }
 .object-label {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  padding-bottom: 12px;
 }
 /* The Record Player does nothing yet, so it should not look pressable */
 .shelf-object[aria-disabled="true"] {
@@ -117,11 +219,12 @@
 .cluster-jars {
   position: relative;
   z-index: 1;
+  flex: 1 0 100%;
   list-style: none;
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px 8px;
   animation: jars-appear var(--dur-slow) ease;
 }
@@ -133,11 +236,11 @@
   gap: 6px;
 }
 .jar-button .object-label {
-  font-size: 1rem;
-  padding-bottom: 0;
+  font-size: 0.95rem;
+  padding: 4px 8px;
 }
 .jar-art-small {
-  width: 72px;
+  width: 84px;
   height: auto;
 }
 
@@ -152,13 +255,23 @@
   }
 }
 
-/* Phones: a little smaller so everything fits comfortably */
-@media (max-width: 420px) {
+/* Small phones */
+@media (max-width: 380px) {
+  .shelf-row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
   .jar-art {
     width: 84px;
-    height: auto;
   }
   .cluster-art {
-    width: 160px;
+    width: 140px;
+  }
+  .record-art {
+    width: 120px;
+  }
+  .bookcase-top img {
+    max-width: 70px;
+    height: auto;
   }
 }

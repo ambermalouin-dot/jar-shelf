@@ -1,6 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="#f6d98a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="4" y="5" width="24" height="22" rx="3"/>
-  <path d="M4 16 H28"/>
-  <circle cx="16" cy="10.5" r="1.6" fill="#f6d98a"/>
-  <circle cx="16" cy="21.5" r="1.6" fill="#f6d98a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36" fill="none" stroke="#4a3428" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <filter id="hand" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1"/>
+    </filter>
+  </defs>
+  <g filter="url(#hand)">
+    <rect x="5" y="6" width="26" height="24" rx="3" fill="#f4b896"/>
+    <path d="M5 18 H31"/>
+    <circle cx="18" cy="12" r="2" fill="#e9b04a" stroke-width="2"/>
+    <circle cx="18" cy="24" r="2" fill="#e9b04a" stroke-width="2"/>
+  </g>
 </svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 84" width="60" height="84" fill="none" stroke="#4a3428" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <filter id="hand" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2"/>
+    </filter>
+  </defs>
+  <g filter="url(#hand)">
+    <path d="M30 50 Q16 40 14 18 Q30 22 30 50Z" fill="#9db38f"/>
+    <path d="M30 50 Q44 38 48 14 Q30 20 30 50Z" fill="#b7c9a8"/>
+    <path d="M30 50 Q28 30 30 8" />
+    <path d="M12 50 H48 L44 80 H16 Z" fill="#c8693f"/>
+    <path d="M10 50 H50" stroke-width="4"/>
+  </g>
+</svg>

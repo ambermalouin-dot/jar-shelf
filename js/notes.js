@@ -48,9 +48,15 @@ function buildNote(note) {
   if (note.is_keeper) footer.append(el("span", "keeper-label", NOTES.keeperLabel));
   paper.append(footer);
 
-  inner.append(paper);
+  // "slip" wrappers draw the dark outline around the cut-out paper shapes
+  const paperWrap = el("div", "slip note-paper-wrap");
+  paperWrap.append(paper);
+  inner.append(paperWrap);
   body.append(inner);
-  wrapper.append(fold, body);
+
+  const foldWrap = el("div", "slip");
+  foldWrap.append(fold);
+  wrapper.append(foldWrap, body);
 
   fold.addEventListener("click", () => {
     const nowOpen = !wrapper.classList.contains("open");

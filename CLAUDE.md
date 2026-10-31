@@ -40,7 +40,7 @@ js/                 config.js, supabase.js, device.js, shelf.js, jars.js,
                     notes.js, write.js, reply.js, journal.js, letters.js,
                     lantern.js, drawer.js, sound.js, opening.js, lighting.js,
                     admin.js, content.js
-assets/             svg/ (shelf, jars, stamps, icons), textures/
+assets/             svg/ (shelf, jars, stamps, icons, decor), textures/
 supabase/           numbered .sql files
 docs/               BUILD_PLAN.md, CONTENT.md
 ```
@@ -112,7 +112,18 @@ Vertical scrolling bookshelf on phones; centered with cozy margins on desktop.
 - **Lighting:** day (6 AM–7 PM local) and night (7 PM–6 AM) via a color overlay, not separate art.
 
 ## Look and feel
-Warm, hand-made, cozy. Paper textures (CSS/SVG noise, no image files needed), soft wood shelf, glass jars with paper inside, muted warm palette (cream, honey, sage, dusty rose, deep wood brown; at night, deep blue and lamplight gold). Rounded friendly serif for headings and a readable sans for body, from Google Fonts (free). Art is simple inline SVG so Amber can swap in her own illustrations later — keep each object in its own SVG file in `assets/svg/` with a clear name.
+It should feel like a cozy, hand-drawn illustration of a little room, never like an app. Mood: a warm sketchbook, a lamp on, something soft in the corner.
+
+- **One bookcase.** The whole shelf is ONE illustrated bookcase: a warm wood frame with rounded corners, a back panel with soft patterned wallpaper, wooden shelf boards, little feet, and plants on top. Jars, the Jar Cluster, and the Record Player sit on its shelves. No floating planks or separate cards.
+- **Hand-drawn line.** Every drawn object has a thick dark brown outline (`#4a3428`, about 3px on screen) with round line ends, and a tiny wobble (an SVG displacement filter) so lines don't look ruler-straight. Flat warm colors only: no gradients inside art, no glossy effects.
+- **Palette.** Cream, peach, terracotta, sage, honey, and warm wood browns. All colors live as CSS variables in `css/main.css`, for day and night.
+- **Decoration.** Fill empty shelf space with small non-clickable items (books, plants, a candle, a trinket box) from `assets/svg/decor/`. They are always `aria-hidden`, have `pointer-events: none`, no hover effect, and no label, so they never look like buttons. Clickable objects get a cream paper name tag and lift slightly on hover.
+- **Paper slips.** Notes, name tags, and Lantern cards are cream paper with the same dark outline. Folded notes show a folded corner; unfolded notes have a slightly torn bottom edge. Never dark rounded boxes.
+- **Night is a warm lamp.** Dimmer, amber and golden, with deep brown instead of blue. Text and paper stay readable (WCAG AA).
+- **Texture.** A soft paper-noise texture (`assets/textures/`), no big image files.
+- **Type.** Rounded friendly serif for headings and a readable sans for body, from Google Fonts (free).
+- **Art files.** Art is simple SVG so Amber can swap in her own drawings later. Keep each object in its own file in `assets/svg/` (`shelf/`, `jars/`, `stamps/`, `icons/`, `decor/`) with a clear name. New art must follow the outline, flat-color, and palette rules above.
+- Amber's mood references: a pink hand-drawn bookcase with plants on top (closest for the look), and cozy hand-drawn rooms with a fireplace and a bunny (for the feeling). Use them as mood only; never copy them.
 
 ## Accessibility (required, not optional)
 - Every shelf object is a real `<button>` with an `aria-label`.

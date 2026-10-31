@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <rect x="2" y="2" width="44" height="44" rx="3" fill="#fbf3e2" stroke="#b79a6a" stroke-width="2.5" stroke-dasharray="3 2.5"/>
-  <polygon points="8,24 24,20 40,10 30,26" fill="#cf9a94"/><polygon points="24,20 30,26 24,38 20,28" fill="#b07a76"/><polygon points="8,24 16,27 24,20" fill="#e3b8b3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="#4a3428" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <filter id="hand" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.8"/>
+    </filter>
+  </defs>
+  <g filter="url(#hand)">
+    <rect x="4" y="4" width="40" height="40" rx="3" fill="#fbf0d8" stroke-width="3" stroke-dasharray="4 3"/>
+<polygon points="9,24 24,20 39,11 30,26" fill="#f4b896"/><polygon points="24,20 30,26 24,37 20,28" fill="#c8693f"/>
+  </g>
 </svg>

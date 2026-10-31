@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <rect x="2" y="2" width="44" height="44" rx="3" fill="#fbf3e2" stroke="#b79a6a" stroke-width="2.5" stroke-dasharray="3 2.5"/>
-  <path d="M24 38 V10" stroke="#5f7d5a" stroke-width="2.5" stroke-linecap="round"/><path d="M24 16 L16 12 M24 16 L32 12 M24 23 L14 19 M24 23 L34 19 M24 30 L15 27 M24 30 L33 27" stroke="#5f7d5a" stroke-width="2.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="#4a3428" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <filter id="hand" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="0.8"/>
+    </filter>
+  </defs>
+  <g filter="url(#hand)">
+    <rect x="4" y="4" width="40" height="40" rx="3" fill="#fbf0d8" stroke-width="3" stroke-dasharray="4 3"/>
+<path d="M24 38 V11"/><path d="M24 17 L16 13 M24 17 L32 13 M24 24 L14 20 M24 24 L34 20 M24 31 L15 28 M24 31 L33 28" stroke="#6f8f63" stroke-width="3"/>
+  </g>
 </svg>

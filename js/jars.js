@@ -56,7 +56,7 @@ function setupCluster() {
     art.width = 120;
     art.height = 150;
 
-    jarButton.append(art, el("span", "object-label", jar.name));
+    jarButton.append(art, el("span", "tag object-label", jar.name));
     jarButton.addEventListener("click", () => showJar(jar, jarButton));
     item.append(jarButton);
     list.append(item);
