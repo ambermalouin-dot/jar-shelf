@@ -1,0 +1,164 @@
+/* The bookshelf: planks, Tonight's Jar, the Jar Cluster, the Record Player. */
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 56px;
+}
+
+.tagline {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  text-align: center;
+  color: var(--ink-soft);
+  margin: 4px 0 28px;
+}
+
+.shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* One shelf: things stand on the plank at the bottom */
+.shelf-row {
+  position: relative;
+  padding-bottom: 20px;
+}
+.shelf-plank {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  bottom: 0;
+  height: 22px;
+  background: url("../assets/svg/shelf/shelf-plank.svg") 0 0 / 100% 100% no-repeat;
+  border-radius: 3px;
+  box-shadow: 0 6px 12px var(--shadow);
+  filter: var(--art-filter);
+}
+
+/* Every shelf object is a real button */
+.shelf-object {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  min-height: 44px;
+  margin: 0;
+  padding: 8px;
+  background: none;
+  border: 0;
+  border-radius: 14px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--dur);
+}
+.shelf-object:hover {
+  transform: translateY(-3px);
+}
+.shelf-object img {
+  display: block;
+  filter: var(--art-filter);
+}
+
+/* Tonight's Jar: big jar with the prompt beside it */
+.tonight-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 12px;
+}
+.tonight-label {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.tonight-date {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+.tonight-prompt {
+  font-size: 1.1rem;
+}
+.tonight-note {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* Jar Cluster and Record Player */
+.cluster-art {
+  width: 200px;
+  height: auto;
+}
+.record-art {
+  width: 160px;
+  height: auto;
+}
+.object-label {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding-bottom: 12px;
+}
+/* The Record Player does nothing yet, so it should not look pressable */
+.shelf-object[aria-disabled="true"] {
+  cursor: default;
+}
+.shelf-object[aria-disabled="true"]:hover {
+  transform: none;
+}
+
+/* The 5 topic jars that appear when the cluster is tapped */
+.cluster-jars {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px 8px;
+  animation: jars-appear var(--dur-slow) ease;
+}
+.jar-button {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  gap: 6px;
+}
+.jar-button .object-label {
+  font-size: 1rem;
+  padding-bottom: 0;
+}
+.jar-art-small {
+  width: 72px;
+  height: auto;
+}
+
+@keyframes jars-appear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Phones: a little smaller so everything fits comfortably */
+@media (max-width: 420px) {
+  .jar-art {
+    width: 84px;
+    height: auto;
+  }
+  .cluster-art {
+    width: 160px;
+  }
+}

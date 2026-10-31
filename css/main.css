@@ -1,0 +1,284 @@
+/* Base look: colors, fonts, header, and the full-screen panels.
+   Day and night colors are all defined once, right here, as variables. */
+
+:root {
+  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --header-height: 64px;
+
+  /* Animation speeds. Reduce motion sets these to 0 (see the bottom). */
+  --dur: 0.25s;
+  --dur-slow: 0.6s;
+
+  /* DAY: cream, honey, sage, dusty rose, deep wood brown */
+  --bg: #efe3c8;
+  --paper: #f8efdc;
+  --paper-edge: #dcc9a0;
+  --ink: #3a2a1c;
+  --ink-soft: #5a4531;
+  --header-bg: #5b3a20;
+  --header-ink: #fbf3e2;
+  --button-bg: #5b3a20;
+  --button-ink: #fbf3e2;
+  --accent: #b9791f;
+  --focus: #1f5f8b;
+  --shadow: rgba(60, 40, 20, 0.25);
+  --art-filter: none;
+}
+
+/* NIGHT: deep blue and lamplight gold */
+:root[data-lighting="night"] {
+  --bg: #101830;
+  --paper: #1f2a48;
+  --paper-edge: #34426b;
+  --ink: #f6ead0;
+  --ink-soft: #dccfae;
+  --header-bg: #0a0f20;
+  --header-ink: #f6e3b0;
+  --button-bg: #f0c46a;
+  --button-ink: #1a1408;
+  --accent: #f0c46a;
+  --focus: #ffd479;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --art-filter: brightness(0.78) saturate(0.85);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  transition: background-color var(--dur-slow), color var(--dur-slow);
+}
+
+body.overlay-open {
+  overflow: hidden;
+}
+
+/* Paper texture over the whole page (soft noise, no big image files) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("../assets/textures/paper-noise.svg");
+  opacity: 0.3;
+}
+
+/* The day/night color wash sits behind the shelf */
+#lighting-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: background var(--dur-slow);
+}
+:root[data-lighting="day"] #lighting-layer {
+  background: radial-gradient(ellipse at 15% 0%, rgba(255, 236, 170, 0.5), transparent 60%);
+}
+:root[data-lighting="night"] #lighting-layer {
+  background:
+    radial-gradient(ellipse at 85% 8%, rgba(255, 196, 96, 0.2), transparent 55%),
+    linear-gradient(rgba(10, 20, 60, 0.35), rgba(10, 20, 60, 0.35));
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Clear focus outline for keyboard use */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.overlay:focus {
+  outline: none;
+}
+
+/* ---------- Sticky header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  height: var(--header-height);
+  background: var(--header-bg);
+  color: var(--header-ink);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.site-header :focus-visible {
+  outline-color: #ffd479;
+}
+.site-header-inner {
+  max-width: 720px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.header-buttons {
+  display: flex;
+  gap: 8px;
+}
+.icon-button {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Buttons ---------- */
+
+.close-button,
+.action-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--button-bg);
+  color: var(--button-ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Full-screen panels (jar view, Drawer, Lantern) ---------- */
+
+.overlay {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  z-index: 40;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--ink);
+}
+.overlay-drawer {
+  z-index: 60;
+}
+/* The Lantern covers everything, including the header, so it is never hidden */
+.overlay-lantern {
+  top: 0;
+  z-index: 100;
+}
+.overlay-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+.overlay-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.overlay-top h2 {
+  font-size: 1.6rem;
+}
+
+/* ---------- Lantern ---------- */
+
+.lantern-intro {
+  margin: 0 0 16px;
+  color: var(--ink-soft);
+}
+.resource {
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.resource-emergency {
+  border: 3px solid var(--accent);
+}
+.resource-name {
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+}
+.resource-detail {
+  margin: 0 0 4px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+.resource-text {
+  margin: 0;
+}
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.lantern-footer,
+.lantern-checked {
+  color: var(--ink-soft);
+  margin: 16px 0 0;
+}
+.lantern-checked {
+  font-size: 0.95rem;
+}
+
+/* ---------- House rules (in the Drawer) ---------- */
+
+.house-rules {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+.house-rules li {
+  margin-bottom: 12px;
+}
+
+/* ---------- Reduce motion ----------
+   Either the phone's own setting, or the Drawer setting added in a later phase
+   (which will put the class "reduce-motion" on <html>). */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0s;
+    --dur-slow: 0s;
+  }
+}
+:root.reduce-motion {
+  --dur: 0s;
+  --dur-slow: 0s;
+}

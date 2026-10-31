@@ -1,0 +1,117 @@
+/* Inside an opened jar: folded papers that unfold when tapped. */
+
+.jar-view-prompt {
+  margin: 0 0 16px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* The folded paper (a button) */
+.note-fold {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 12px 16px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--paper-edge);
+  border-radius: 6px 16px 6px 16px;
+  box-shadow: 0 2px 0 var(--paper-edge), 0 6px 14px var(--shadow);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--dur);
+}
+.note-fold:hover {
+  transform: translateY(-2px);
+}
+/* The little folded-over corner */
+.note-fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(225deg, var(--bg) 50%, var(--paper-edge) 50%);
+  border-radius: 0 14px 0 0;
+}
+.stamp-small {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  filter: var(--art-filter);
+}
+.note-preview {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+/* The unfolded paper. It grows open and tilts flat, like unfolding. */
+.note-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows var(--dur-slow) ease, visibility 0s linear var(--dur-slow);
+}
+.note.open .note-body {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.note-body-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 4px;
+}
+.note-paper {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 20px;
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: 6px 16px 6px 16px;
+  box-shadow: 0 6px 14px var(--shadow);
+  transform-origin: top center;
+  transform: perspective(700px) rotateX(-40deg);
+  opacity: 0;
+  transition: transform var(--dur-slow) ease, opacity var(--dur-slow) ease;
+}
+.note.open .note-paper {
+  transform: none;
+  opacity: 1;
+}
+.note-text {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.note-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.stamp-large {
+  width: 48px;
+  height: 48px;
+  filter: var(--art-filter);
+}
+.keeper-label {
+  color: var(--ink-soft);
+  font-style: italic;
+}
